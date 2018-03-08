@@ -1,0 +1,168 @@
+version: "2.2"
+
+services:
+  replicationmanager:
+    image: replicationmanager
+    command: ["replication-manager", "monitor", "--config", "/etc/replication-manager/config/config.toml", "--verbose"]
+    volumes:
+      - ./replication-manager:/etc/replication-manager/config
+    ports:
+      - "10001:10001"
+      - "10005:10005"
+    depends_on:
+      - setup
+
+  maxscale:
+    image: asosso/maxscale
+    volumes:
+      - ./maxscale:/etc/maxscale.d
+    ports:
+      - "3306:3306"
+      - "3307:3307"
+      - "6603:6603"
+    depends_on:
+      - replicationmanager
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+     - PMA_ARBITRARY=1
+    ports:
+     - "8080:80"
+
+
+  setup:
+    image: mariadb
+    restart: "no"
+    entrypoint: ""
+    command: "/setup/setup.sh"
+    volumes:
+      - ./setup:/setup
+    depends_on:
+      mariadb_a1: { condition: service_healthy }
+      mariadb_a2: { condition: service_healthy }
+      mariadb_a3: { condition: service_healthy }
+      mariadb_a4: { condition: service_healthy }
+      mariadb_b1: { condition: service_healthy }
+      mariadb_b2: { condition: service_healthy }
+      mariadb_b3: { condition: service_healthy }
+      mariadb_b4: { condition: service_healthy }
+      mariadb_wh: { condition: service_healthy }
+
+
+  mariadb_a1:
+    image: mariadb
+    command: ["mysqld", "--server-id=11", "--gtid-domain-id=10"]
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./mariadb:/etc/mysql/conf.d
+    healthcheck:
+      test: "mysqladmin -h 127.0.0.1 status || exit 1"
+      interval: "5s"
+      timeout: "1s"
+      retries: 10
+
+  mariadb_a2:
+    image: mariadb
+    command: ["mysqld", "--server-id=12", "--gtid-domain-id=10"]
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./mariadb:/etc/mysql/conf.d
+    healthcheck:
+      test: "mysqladmin -h 127.0.0.1 status || exit 1"
+      interval: "5s"
+      timeout: "1s"
+      retries: 10
+
+  mariadb_a3:
+    image: mariadb
+    command: ["mysqld", "--server-id=13", "--gtid-domain-id=10"]
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./mariadb:/etc/mysql/conf.d
+    healthcheck:
+      test: "mysqladmin -h 127.0.0.1 status || exit 1"
+      interval: "5s"
+      timeout: "1s"
+      retries: 10
+
+  mariadb_a4:
+    image: mariadb
+    command: ["mysqld", "--server-id=14", "--gtid-domain-id=10"]
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./mariadb:/etc/mysql/conf.d
+    healthcheck:
+      test: "mysqladmin -h 127.0.0.1 status || exit 1"
+      interval: "5s"
+      timeout: "1s"
+      retries: 10
+
+  mariadb_b1:
+    image: mariadb
+    command: ["mysqld", "--server-id=21", "--gtid-domain-id=20"]
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./mariadb:/etc/mysql/conf.d
+    healthcheck:
+      test: "mysqladmin -h 127.0.0.1 status || exit 1"
+      interval: "5s"
+      timeout: "1s"
+      retries: 10
+
+  mariadb_b2:
+    image: mariadb
+    command: ["mysqld", "--server-id=22", "--gtid-domain-id=20"]
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./mariadb:/etc/mysql/conf.d
+    healthcheck:
+      test: "mysqladmin -h 127.0.0.1 status || exit 1"
+      interval: "5s"
+      timeout: "1s"
+      retries: 10
+
+  mariadb_b3:
+    image: mariadb
+    command: ["mysqld", "--server-id=23", "--gtid-domain-id=20"]
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./mariadb:/etc/mysql/conf.d
+    healthcheck:
+      test: "mysqladmin -h 127.0.0.1 status || exit 1"
+      interval: "5s"
+      timeout: "1s"
+      retries: 10
+
+  mariadb_b4:
+    image: mariadb
+    command: ["mysqld", "--server-id=24", "--gtid-domain-id=20"]
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./mariadb:/etc/mysql/conf.d
+    healthcheck:
+      test: "mysqladmin -h 127.0.0.1 status || exit 1"
+      interval: "5s"
+      timeout: "1s"
+      retries: 10
+
+  mariadb_wh:
+    image: mariadb
+    command: ["mysqld", "--server-id=99", "--gtid-domain-id=99"]
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./mariadb:/etc/mysql/conf.d
+    healthcheck:
+      test: "mysqladmin -h 127.0.0.1 status || exit 1"
+      interval: "5s"
+      timeout: "1s"
+      retries: 10

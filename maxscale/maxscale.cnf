@@ -1,0 +1,142 @@
+[MaxScale]
+log_warning = 1
+log_info = 1
+log_notice = 1
+log_debug = 1
+
+
+[MaxAdmin]
+type=service
+router=cli
+
+[MaxAdmin Unix Listener]
+type=listener
+service=MaxAdmin
+protocol=maxscaled
+socket=default
+
+[MaxAdmin TCP Listener]
+type=listener
+service=MaxAdmin
+protocol=maxscaled
+address=0.0.0.0
+port=6603
+
+
+[Cluster A Router]
+type=service
+router=readwritesplit
+servers=mariadb_a1,mariadb_a2,mariadb_a3,mariadb_a4
+weightby=serv_weight
+master_failure_mode=fail_on_write
+max_slave_replication_lag=2
+user=maxscale
+passwd=maxscale
+enable_root_user=true
+
+[Cluster A Listener]
+type=listener
+service=Cluster A Router
+protocol=MySQLClient
+address=0.0.0.0
+port=3306
+
+[Cluster A Monitor]
+type=monitor
+module=mysqlmon
+servers=mariadb_a1,mariadb_a2,mariadb_a3,mariadb_a4
+user=replmon
+passwd=replmon
+monitor_interval=500
+backend_write_timeout=1
+detect_stale_master=true
+detect_replication_lag=true
+
+
+[Cluster B Router]
+type=service
+router=readwritesplit
+servers=mariadb_b1,mariadb_b2,mariadb_b3,mariadb_b4
+weightby=serv_weight
+master_failure_mode=fail_on_write
+max_slave_replication_lag=2
+user=maxscale
+passwd=maxscale
+enable_root_user=true
+
+[Cluster B Listener]
+type=listener
+service=Cluster B Router
+protocol=MySQLClient
+address=0.0.0.0
+port=3307
+
+[Cluster B Monitor]
+type=monitor
+module=mysqlmon
+servers=mariadb_b1,mariadb_b2,mariadb_b3,mariadb_b4
+user=replmon
+passwd=replmon
+monitor_interval=500
+backend_write_timeout=1
+detect_stale_master=true
+detect_replication_lag=true
+
+
+
+[mariadb_a1]
+type=server
+protocol=MySQLBackend
+address=mariadb_a1
+port=3306
+serv_weight=1
+
+[mariadb_a2]
+type=server
+protocol=MySQLBackend
+address=mariadb_a2
+port=3306
+serv_weight=1
+
+[mariadb_a3]
+type=server
+protocol=MySQLBackend
+address=mariadb_a3
+port=3306
+serv_weight=1
+
+[mariadb_a4]
+type=server
+protocol=MySQLBackend
+address=mariadb_a4
+port=3306
+serv_weight=1
+
+[mariadb_b1]
+type=server
+protocol=MySQLBackend
+address=mariadb_b1
+port=3306
+serv_weight=1
+
+[mariadb_b2]
+type=server
+protocol=MySQLBackend
+address=mariadb_b2
+port=3306
+serv_weight=1
+
+[mariadb_b3]
+type=server
+protocol=MySQLBackend
+address=mariadb_b3
+port=3306
+serv_weight=1
+
+[mariadb_b4]
+type=server
+protocol=MySQLBackend
+address=mariadb_b4
+port=3306
+serv_weight=1
+

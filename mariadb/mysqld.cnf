@@ -1,0 +1,57 @@
+[mysqld]
+basedir = /usr
+bind_address = *
+binlog_format = ROW
+datadir = /var/lib/mysql
+expire_logs_days = 1
+gtid_ignore_duplicates = OFF
+innodb_buffer_pool_size = 128M
+innodb_data_file_path = ibdata01:100M:autoextend
+innodb_flush_log_at_trx_commit = 1
+innodb_flush_method = O_DIRECT
+innodb_flush_neighbors = 0
+innodb_io_capacity = 100
+innodb_io_capacity_max = 200
+innodb_log_buffer_size = 16M
+innodb_log_file_size = 64M
+innodb_log_files_in_group = 2
+innodb_read_io_threads = 4
+innodb_write_io_threads = 4
+key_buffer_size = 128M
+log_bin = binlog
+log_error = /dev/stderr
+log_slave_updates = 1
+long_query_time = 10
+max_allowed_packet = 32M
+max_binlog_size = 128M
+max_connect_errors = 100000
+max_connections = 128
+max_heap_table_size = 128M
+max_join_size = 256M
+max_sort_length = 1024
+pid_file = /run/mysqld/mysql.3306.pid
+port = 3306
+query_cache_size = 0
+query_cache_type = 0
+relay_log = /var/lib/mysql/relay-bin.index
+relay_log_index = /var/lib/mysql/relay-bin.index
+socket = /run/mysqld/mysqld.sock
+ssl = false
+sync_binlog = 1
+table_definition_cache = 6144
+table_open_cache = 6144
+thread_handling = pool-of-threads
+thread_pool_idle_timeout = 7200
+thread_pool_max_threads = 65536
+thread_pool_size = 128
+tmpdir = /tmp
+user = mysql
+
+[mysqld_safe]
+log_error = /dev/stderr
+nice = 0
+
+[mysqldump]
+max_allowed_packet = 32M
+quick
+quote_names

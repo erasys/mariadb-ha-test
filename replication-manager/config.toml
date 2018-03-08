@@ -1,0 +1,68 @@
+[Default]
+http-server = true
+http-bind-address = "0.0.0.0"
+http-auth = false
+api-credential = "admin:admin"
+
+log-level = 2
+verbose = 1
+
+[cluster_a]
+title = "Cluster A"
+
+db-servers-hosts = "mariadb_a1,mariadb_a2,mariadb_a3,mariadb_a4,mariadb_wh"
+db-servers-ignored-hosts = "mariadb_wh"
+db-servers-credential = "replmon:replmon"
+
+replication-credential = "replicator:replicator"
+replication-source-name = "cluster_a"
+
+failover-mode = "automatic"
+failover-limit = 3
+failover-time-limit = 10
+failover-at-sync = false
+failover-max-slave-delay = 1
+failover-falsepositive-heartbeat = false
+failover-falsepositive-heartbeat-timeout = 1
+failover-falsepositive-ping-counter = 1
+failover-falsepositive-maxscale = true
+failover-falsepositive-maxscale-timeout = 2
+
+maxscale = true
+maxscale-servers = "maxscale"
+maxscale-port = "6603"
+maxscale-user = "admin"
+maxscale-pass = "mariadb"
+maxscale-read-port = "3306"
+maxscale-write-port = "3306"
+maxscale-read-write-port = "3306"
+
+[cluster_b]
+title = "Cluster B"
+
+db-servers-hosts = "mariadb_b1,mariadb_b2,mariadb_b3,mariadb_b4,mariadb_wh"
+db-servers-ignored-hosts = "mariadb_wh"
+db-servers-credential = "replmon:replmon"
+
+replication-credential = "replicator:replicator"
+replication-source-name = "cluster_b"
+
+failover-mode = "automatic"
+failover-limit = 3
+failover-time-limit = 10
+failover-at-sync = false
+failover-max-slave-delay = 1
+failover-falsepositive-heartbeat = false
+failover-falsepositive-heartbeat-timeout = 1
+failover-falsepositive-ping-counter = 1
+failover-falsepositive-maxscale = true
+failover-falsepositive-maxscale-timeout = 2
+
+maxscale = true
+maxscale-servers = "maxscale"
+maxscale-port = "6603"
+maxscale-user = "admin"
+maxscale-pass = "mariadb"
+maxscale-read-port = "3307"
+maxscale-write-port = "3307"
+maxscale-read-write-port = "3307"
