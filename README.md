@@ -21,6 +21,14 @@ This will spawn all MariaDB instances, MaxScale and Replication Manager, and cal
 script (located at `setup/setup.sh`) which creates permissions, sets up initial replication
 in the clusters and the warehouse and creates some database tables to use.
 
+To stop, do
+
+```sh
+docker-compose down -v
+```
+
+## Default configuration & exposed ports
+
 The MaxScale container is configured to use the `readwritesplit` router. It exposes cluster
 A on host level at port `3306` and cluster B on port `3307`. If you want to connect with the
 mysql cli from your host, be sure to use `127.0.0.1` as hostname instead of `localhost`,
