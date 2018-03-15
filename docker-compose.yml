@@ -14,7 +14,8 @@ services:
       - "10001:10001"
       - "10005:10005"
     depends_on:
-      - setup
+      - setup_a
+      - setup_b
 
   maxscale:
     image: asosso/maxscale
@@ -35,11 +36,11 @@ services:
      - "8080:80"
 
 
-  setup:
+  setup_a:
     image: mariadb
     restart: "no"
     entrypoint: ""
-    command: "/setup/setup.sh"
+    command: "/setup/setup.sh cluster_a foo.bar mariadb_a1 mariadb_a2 mariadb_a3 mariadb_a4 mariadb_wh"
     volumes:
       - ./setup:/setup
     depends_on:
@@ -47,6 +48,16 @@ services:
       mariadb_a2: { condition: service_healthy }
       mariadb_a3: { condition: service_healthy }
       mariadb_a4: { condition: service_healthy }
+      mariadb_wh: { condition: service_healthy }
+
+  setup_b:
+    image: mariadb
+    restart: "no"
+    entrypoint: ""
+    command: "/setup/setup.sh cluster_b bla.blub mariadb_b1 mariadb_b2 mariadb_b3 mariadb_b4 mariadb_wh"
+    volumes:
+      - ./setup:/setup
+    depends_on:
       mariadb_b1: { condition: service_healthy }
       mariadb_b2: { condition: service_healthy }
       mariadb_b3: { condition: service_healthy }
