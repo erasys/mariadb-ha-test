@@ -18,4 +18,6 @@ done
 $(dirname $0)/setup_master_slave_replication.sh ${cluster} ${master} ${slaves}
 $(dirname $0)/setup_database_table.sh ${master} ${database} ${table}
 
+sleep 10
+
 exit 0
