@@ -2,11 +2,11 @@ version: "2.2"
 
 services:
   replicationmanager:
-    image: signal18/replication-manager:2.1
-    # image: replication-manager
-    # build:
-    #   context: "https://github.com/erasys/replication-manager.git#slimmer_docker_image_2.1"
-    #   dockerfile: docker/Dockerfile
+    # image: signal18/replication-manager:2.1
+    image: replication-manager
+    build:
+      context: "https://github.com/erasys/replication-manager.git#slimmer_docker_image_2.1"
+      dockerfile: docker/Dockerfile
     command: ["replication-manager", "monitor", "--config", "/etc/replication-manager/config/config.toml", "--verbose"]
     volumes:
       - ./replication-manager:/etc/replication-manager/config
