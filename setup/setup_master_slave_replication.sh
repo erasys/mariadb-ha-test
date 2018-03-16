@@ -18,7 +18,7 @@ for slave in ${slave_hosts}; do
 done
 
 # Prepare replication settings on master, but do not start.
-(
-  echo "SET SQL_LOG_BIN = 0;"
-  echo "CHANGE MASTER '${cluster}' TO master_user = 'replicator', master_password = 'replicator', master_use_gtid = CURRENT_POS, master_heartbeat_period = 0.1;"
-) | mysql -vvv -h "${master}" -u root mysql
+# (
+#   echo "SET SQL_LOG_BIN = 0;"
+#   echo "CHANGE MASTER '${cluster}' TO master_user = 'replicator', master_password = 'replicator', master_use_gtid = CURRENT_POS, master_heartbeat_period = 0.1;"
+# ) | mysql -vvv -h "${master}" -u root mysql
